@@ -14,6 +14,7 @@ typedef struct {
   char* command;
   unsigned int interval;
   unsigned int signal;
+  unsigned int lazy;
 } Block;
 void sighandler(int num);
 void buttonhandler(int sig, siginfo_t *si, void *ucontext);
@@ -123,7 +124,8 @@ void getcmds(int time)
   for(int i = 0; i < LENGTH(blocks); i++)
   {
     current = blocks + i;
-    if ((current->interval != 0 && time % current->interval == 0) || time == -1) 
+    if (current->lazy && (time == -1 || time == 0)) continue;
+    if ((current->interval != 0 && time % current->interval == 0) || time == -1)
       getcmd(current,statusbar[i]);
   }
 }
@@ -245,6 +247,11 @@ void statusloop()
 #ifndef __OpenBSD__
 void sighandler(int signum)
 {
+  FILE *fptr;
+  fptr = fopen("/home/th13rry/.cache/dwmblocks.log","a");
+  fprintf(fptr,"Received signal %d\n", signum);
+  fclose(fptr);
+
   getsigcmds(signum-SIGRTMIN);
   writestatus();
 }
@@ -288,12 +295,11 @@ int main(int argc, char** argv)
 {
   for(int i = 0; i < argc; i++)
   {
-    if (!strcmp("-d",argv[i]))
-      delim = argv[++i];
-    else if(!strcmp("-p",argv[i]))
+    if(!strcmp("-p",argv[i]))
       writestatus = pstdout;
   }
   signal(SIGTERM, termhandler);
   signal(SIGINT, termhandler);
+  signal(SIGHUP, termhandler);
   statusloop();
 }
