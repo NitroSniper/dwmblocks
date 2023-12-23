@@ -8,6 +8,7 @@
 #include <X11/Xlib.h>
 #define LENGTH(X) (sizeof(X) / sizeof (X[0]))
 #define CMDLENGTH    50
+#define LOGGING 1
 
 typedef struct {
   char* icon;
@@ -247,10 +248,12 @@ void statusloop()
 #ifndef __OpenBSD__
 void sighandler(int signum)
 {
-  FILE *fptr;
-  fptr = fopen("/home/th13rry/.cache/dwmblocks.log","a");
-  fprintf(fptr,"Received signal %d\n", signum);
-  fclose(fptr);
+  if (LOGGING) {
+    FILE *fptr;
+    fptr = fopen("/var/log/dwmblocks/dwmblocks.log","a");
+    fprintf(fptr,"Received signal %d\n", signum);
+    fclose(fptr);
+  }
 
   getsigcmds(signum-SIGRTMIN);
   writestatus();
