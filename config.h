@@ -1,10 +1,11 @@
 //Modify this file to change what commands output to your statusbar, and recompile using the make command.
 static const Block blocks[] = {
-  /*Icon*/  /*Command*/    /*Update Interval*/  /*Update Signal*/ /*Is Lazy*/
-  {"󰏗 ",    "dwmblocks-updates",  60,                 17,             1},
-  {"󰕾 ",    "dwmblocks-volume",   0,                  10,             0},
-  {"",      "dwmblocks-wifi",     60,                  0,              0},
-  {"" ,     "dwmblocks-clock",    60,                 0,              0}
+  /*Icon*/  /*Command*/         /*Update Interval*/  /*Update Signal*/ /*Is Lazy*/
+  {"󰕾 ",  "dwmblocks-volume.sh",        0,                  10,             0},
+  {""  ,  "dwmblocks-battery.sh",      15,                   0,             0},
+  {"󰖩 ",  "dwmblocks-wifi.sh",         60,                   0,             0},
+  {"󰏗 ",  "dwmblocks-package.sh",     300,                   0,             0},
+  {""  ,  "whoami",                     0,                   0,             0}
 };
 
 //Sets delimiter between status commands. NULL character ('\0') means no delimiter.

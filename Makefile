@@ -2,7 +2,7 @@
 
 PREFIX = 
 CC = gcc
-DESTDIR = ~/.local
+DESTDIR = /usr/local
 
 dwmblocks: dwmblocks.o
 	$(CC) dwmblocks.o -lX11 -o dwmblocks

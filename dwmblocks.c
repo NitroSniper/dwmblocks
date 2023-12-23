@@ -8,7 +8,7 @@
 #include <X11/Xlib.h>
 #define LENGTH(X) (sizeof(X) / sizeof (X[0]))
 #define CMDLENGTH    50
-#define LOGGING 1
+#define LOGGING 0
 
 typedef struct {
   char* icon;
